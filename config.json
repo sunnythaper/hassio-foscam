@@ -1,0 +1,44 @@
+{
+  "name": "Foscam",
+  "version": "0.5.13",
+  "slug": "hassio-foscam",
+  "description": "Exposing curl commands for Foscam cameras to Hass.io",
+  "startup": "before",
+  "boot": "auto",
+  "options": {
+    "mqtt_ip": "192.168.1.1",
+    "mqtt_port": "1883",
+    "mqtt_user": "admin",
+    "mqtt_password": "password",
+    "parent_topic": "cameras/foscam",
+    "wait_time": 10,
+    "cameras": [{
+      "name": "camera_one",
+      "ip": "192.168.1.1",
+      "port": "443",
+      "protocol": "https",
+      "username": "admin",
+      "password": "password",
+      "preset_on": "on",
+      "preset_off": "off"
+    }]
+  },
+  "schema": {
+    "mqtt_ip": "str",
+    "mqtt_port": "str",
+    "mqtt_user": "str",
+    "mqtt_password": "str",
+    "parent_topic": "str",
+    "wait_time": "int",
+    "cameras": [{
+      "name": "str",
+      "ip": "str",
+      "port": "str",
+      "protocol": "str",
+      "username": "str",
+      "password": "str",
+      "preset_on": "str",
+      "preset_off": "str"
+    }]
+  }
+}
