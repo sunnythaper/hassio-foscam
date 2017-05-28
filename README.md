@@ -64,6 +64,7 @@ To begin, we will first configure our settings for our camera setup. This is don
 ```
 
 Settings:
+---------
 
 **mqtt_ip:** The ip or hostname of the MQTT instance where you would like the data to go
 
@@ -94,6 +95,7 @@ Settings:
 **preset_on:** You will need to create a preset on your Foscam camera of where you would like the camera to be positioned when ARMED in Home Assistant
 
 MQTT Topics:
+------------
 
 This script will create a few topics in order to keep track of our arm status, motion detection status, and a topic to send an arm/disarm command. The topics are based off the following format:
 
