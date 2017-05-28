@@ -30,7 +30,7 @@ Add-on Configuration
 
 To begin, we will first configure our settings for our camera setup. This is done within the Hass.io add-on panel via a JSON object.
 
-```
+```javascript
 {
   "mqtt_ip": "192.168.1.5",
   "mqtt_user": "testymctestorson",
@@ -106,11 +106,11 @@ parent_topic\name\setting
 With the above example, we should see the following MQTT topics:
 
 ```
-cameras/foscam # Used to send arm/disarm command
-cameras/foscam/porch/motion_status # Will display either Armed or Disarmed based off a curl call to the camera
-cameras/foscam/porch/motion_detect # Will display either None or Detected based off a curl call to the camera
-cameras/foscam/backyard/motion_status
-cameras/foscam/backyard/motion_detect
+**cameras/foscam** # Used to send arm/disarm command
+**cameras/foscam/porch/motion_status** - Will display either Armed or Disarmed based off a curl call to the camera
+**cameras/foscam/porch/motion_detect** - Will display either None or Detected based off a curl call to the camera
+**cameras/foscam/backyard/motion_status**
+**cameras/foscam/backyard/motion_detect**
 ```
 
 Home Assistant MQTT Switch
@@ -118,7 +118,7 @@ Home Assistant MQTT Switch
 
 Now that we have the add-on setup properly, we must now add a switch within Home Assistant to trigger the script to arm/disarm. We can accomplish this by setting up an MQTT switch in our configuration.yaml file.
 
-```
+```yaml
 - platform: mqtt
   name: Camera Monitoring
   command_topic: cameras/foscam
@@ -134,7 +134,7 @@ Home Assistant MQTT Sensors
 
 Now that we have the master on/off switch setup, we want to see if the switch has indeed worked for each camera and if it has, we want to be alerted of motion events! In your configuration.yaml file, enter the following to setup all our sensors.
 
-```
+```yaml
 - platform: mqtt
   name: Porch Status
   state_topic: "cameras/foscam/porch/motion_status"
