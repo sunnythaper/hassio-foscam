@@ -100,7 +100,7 @@ MQTT Topics:
 This script will create a few topics in order to keep track of our arm status, motion detection status, and a topic to send an arm/disarm command. The topics are based off the following format:
 
 ```
-parent_topic\name\setting
+parent_topic/name/setting
 ```
 
 With the above example, we should see the following MQTT topics:
