@@ -30,7 +30,7 @@ Add-on Configuration
 
 To begin, we will first configure our settings for our camera setup. This is done within the Hass.io add-on panel via a JSON object.
 
-```json
+```
 {
   "mqtt_ip": "192.168.1.5",
   "mqtt_user": "testymctestorson",
@@ -103,7 +103,7 @@ Home Assistant MQTT Switch
 
 Now that we have the add-on setup properly, we must now add a switch within Home Assistant to trigger the script to arm/disarm. We can accomplish this by setting up an MQTT switch in our configuration.yaml file.
 
-```yaml
+```
 - platform: mqtt
   name: Camera Monitoring
   command_topic: cameras/foscam
