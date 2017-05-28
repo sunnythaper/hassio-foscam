@@ -1,6 +1,6 @@
 # hassio-foscam
 
-I have a few [Foscam R2s](http://amzn.to/2rtIE4G) and needed a way for them to interface with the new [Hass.io](https://home-assistant.io/hassio) image of [Home Assistant](https://home-assistant.io/) because the shell script based [Home Assistant Foscam Example](https://home-assistant.io/cookbook/foscam_away_mode_PTZ/) no longer worked due to curl being left out of Hass.io. What I ended up coming up with was this Hass.io add-on that triggers specific curl commands via a MQTT trigger.
+I have a few [Foscam R2s](http://amzn.to/2rtIE4G) and needed a way for them to interface with the new [Hass.io](https://home-assistant.io/hassio) image of [Home Assistant](https://home-assistant.io/) because the shell script based [Home Assistant Foscam Example](https://home-assistant.io/cookbook/foscam_away_mode_PTZ/) no longer worked due to curl being left out of Hass.io. What I ended up coming up with was this Hass.io add-on that triggers specific curl commands via a MQTT switch.
 
 Features:
 
@@ -139,19 +139,37 @@ Now that we have the master on/off switch setup, we want to see if the switch ha
 ```yaml
 - platform: mqtt
   name: Porch Status
-  state_topic: "cameras/foscam/porch/motion_status"
+  state_topic: cameras/foscam/porch/motion_status
 - platform: mqtt
   name: Porch Motion
-  state_topic: "cameras/foscam/porch/motion_detect"
+  state_topic: cameras/foscam/porch/motion_detect
 - platform: mqtt
   name: Backyard Status
-  state_topic: "cameras/foscam/backyard/motion_status"
+  state_topic: cameras/foscam/backyard/motion_status
 - platform: mqtt
   name: Backyard Motion
-  state_topic: "cameras/foscam/backyard/motion_detect"
+  state_topic: cameras/foscam/backyard/motion_detect
 ```
 
 Now we should be able to place sensor.porch_status, sensor.porch_motion, sensor.backyard_status, and sensor.backyard_motion into our groups.yaml file and get some feedback from our cameras in Home Assistant!
+
+Home Assistant Foscam Camera Feed
+---------------------------------
+
+The final step is to add our camera feeds to the camera declarations in configuration.yaml.
+
+```yaml
+- platform: foscam
+  name: Porch
+  ip: 192.168.1.43
+  username: testletmctestorson
+  password: testamundo544
+- platform: foscam
+  name: Backyard
+  ip: 192.168.1.213
+  username: tessiemctestorson
+  password: testabammabobamma
+```
 
 Bugs or Feature Requests
 ------------------------
