@@ -105,13 +105,15 @@ parent_topic\name\setting
 
 With the above example, we should see the following MQTT topics:
 
-```
-**cameras/foscam** # Used to send arm/disarm command
+**cameras/foscam** - Used to send arm/disarm command
+
 **cameras/foscam/porch/motion_status** - Will display either Armed or Disarmed based off a curl call to the camera
+
 **cameras/foscam/porch/motion_detect** - Will display either None or Detected based off a curl call to the camera
+
 **cameras/foscam/backyard/motion_status**
+
 **cameras/foscam/backyard/motion_detect**
-```
 
 Home Assistant MQTT Switch
 --------------------------
