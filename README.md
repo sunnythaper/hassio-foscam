@@ -121,12 +121,13 @@ Home Assistant MQTT Switch
 Now that we have the add-on setup properly, we must now add a switch within Home Assistant to trigger the script to arm/disarm. We can accomplish this by setting up an MQTT switch in our configuration.yaml file.
 
 ```yaml
-- platform: mqtt
-  name: Camera Monitoring
-  command_topic: cameras/foscam
-  state_topic: cameras/foscam
-  payload_on: arm
-  payload_off: disarm
+switch:
+  - platform: mqtt
+    name: Camera Monitoring
+    command_topic: cameras/foscam
+    state_topic: cameras/foscam
+    payload_on: arm
+    payload_off: disarm
 ```
 
 Now we should be able to place switch.camera_monitoring into our groups.yaml file and see our cameras do a syncronized dance.
@@ -137,18 +138,19 @@ Home Assistant MQTT Sensors
 Now that we have the master on/off switch setup, we want to see if the switch has indeed worked for each camera and if it has, we want to be alerted of motion events! In your configuration.yaml file, enter the following to setup all our sensors.
 
 ```yaml
-- platform: mqtt
-  name: Porch Status
-  state_topic: cameras/foscam/porch/motion_status
-- platform: mqtt
-  name: Porch Motion
-  state_topic: cameras/foscam/porch/motion_detect
-- platform: mqtt
-  name: Backyard Status
-  state_topic: cameras/foscam/backyard/motion_status
-- platform: mqtt
-  name: Backyard Motion
-  state_topic: cameras/foscam/backyard/motion_detect
+sensor:
+  - platform: mqtt
+    name: Porch Status
+    state_topic: cameras/foscam/porch/motion_status
+  - platform: mqtt
+    name: Porch Motion
+    state_topic: cameras/foscam/porch/motion_detect
+  - platform: mqtt
+    name: Backyard Status
+    state_topic: cameras/foscam/backyard/motion_status
+  - platform: mqtt
+    name: Backyard Motion
+    state_topic: cameras/foscam/backyard/motion_detect
 ```
 
 Now we should be able to place sensor.porch_status, sensor.porch_motion, sensor.backyard_status, and sensor.backyard_motion into our groups.yaml file and get some feedback from our cameras in Home Assistant!
@@ -156,19 +158,20 @@ Now we should be able to place sensor.porch_status, sensor.porch_motion, sensor.
 Home Assistant Foscam Camera Feed
 ---------------------------------
 
-The final step is to add our camera feeds to the camera declarations in configuration.yaml.
+The final step is to add our camera feeds to configuration.yaml.
 
 ```yaml
-- platform: foscam
-  name: Porch
-  ip: 192.168.1.43
-  username: testletmctestorson
-  password: testamundo544
-- platform: foscam
-  name: Backyard
-  ip: 192.168.1.213
-  username: tessiemctestorson
-  password: testabammabobamma
+camera:
+  - platform: foscam
+    name: Porch
+    ip: 192.168.1.43
+    username: testletmctestorson
+    password: testamundo544
+  - platform: foscam
+    name: Backyard
+    ip: 192.168.1.213
+    username: tessiemctestorson
+    password: testabammabobamma
 ```
 
 Bugs or Feature Requests
