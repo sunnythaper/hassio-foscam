@@ -66,18 +66,31 @@ To begin, we will first configure our settings for our camera setup. This is don
 Settings:
 
 **mqtt_ip:** The ip or hostname of the MQTT instance where you would like the data to go
+
 **mqtt_user:** The username for your MQTT instance
+
 **mqtt_password:** The password to the mqtt_user for your MQTT instance
+
 **mqtt_port:** Typical setups use ports 1883 or 8883
+
 **parent_topic:** This will be the first part of the MQTT topic that this script produces. More info below
+
 **wait_time:** With the pan, tilt, and zoom changes we need to make between scenes, an appropriate wait time must be set otherwise motion detection will go off while camera is moving into position. Setting is in seconds (6 equates to 6 seconds of waiting after scene change is triggered)
+
 **protocol:** Depending on your Foscam setup, this will either be "http" or "https"
+
 **ip:** The ip or hostname of the Foscam camera you wish to control
+
 **username:** The username for the Foscam camera you wish to control
+
 **password:** The password for the Foscam camera you wish to control
+
 **port:** The port for the camera you wish to control. Typically 80 (http) or 443 (https)
+
 **name:** This will be the second part of the MQTT topic that this script produces. More info below
+
 **preset_off:** You will need to create a preset on your Foscam camera of where you would like the camera to be positioned when DISARMED in Home Assistant
+
 **preset_on:** You will need to create a preset on your Foscam camera of where you would like the camera to be positioned when ARMED in Home Assistant
 
 MQTT Topics:
