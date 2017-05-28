@@ -174,6 +174,8 @@ camera:
     password: testabammabobamma
 ```
 
+We can now add camera.porch and camera.backyard to our groups.yaml file and see the fruits of our labor.
+
 Bugs or Feature Requests
 ------------------------
 
