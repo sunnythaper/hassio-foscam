@@ -10,7 +10,10 @@ MQTT_PASSWORD=$(jq --raw-output '.mqtt_password' $CONFIG_PATH)
 PARENT_TOPIC=$(jq --raw-output ".parent_topic" $CONFIG_PATH)
 WAIT_TIME=$(jq --raw-output '.wait_time' $CONFIG_PATH)
 CAMERAS=$(jq --raw-output ".cameras | length" $CONFIG_PATH)
-INIT=true
+
+for (( i=0; i < "$CAMERAS"; i++ )); do
+  INIT[$i]=true
+done
 
 foscam_arm() {
   foscam_scene $1 $2 $3 $4 $5 $6
@@ -83,10 +86,10 @@ do
     PRESET_ON=$(jq --raw-output ".cameras[$i].preset_on" $CONFIG_PATH)
     PRESET_OFF=$(jq --raw-output ".cameras[$i].preset_off" $CONFIG_PATH)
 
-    if [ $INIT ]; then
+    if [ $INIT[$i] ]; then
       foscam_motion_status $PROTOCOL $IP $PORT $USERNAME $PASSWORD $NAME &
       foscam_motion_detect $PROTOCOL $IP $PORT $USERNAME $PASSWORD $NAME &
-      $INIT = false
+      $INIT[$i] = false
     fi
 
     case $message in
