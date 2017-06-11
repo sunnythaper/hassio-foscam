@@ -1,6 +1,6 @@
 {
-  "name": "Foscam",
-  "version": "0.5.13",
+  "name": "hassio-foscam",
+  "version": "0.5.14",
   "slug": "hassio-foscam",
   "description": "Exposing curl commands for Foscam cameras to Hass.io",
   "startup": "before",
