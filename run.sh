@@ -89,7 +89,7 @@ do
     if [ $INIT[$i] ]; then
       foscam_motion_status $PROTOCOL $IP $PORT $USERNAME $PASSWORD $NAME &
       foscam_motion_detect $PROTOCOL $IP $PORT $USERNAME $PASSWORD $NAME &
-      $INIT[$i] = false
+      INIT[$i] = false
     fi
 
     case $message in
