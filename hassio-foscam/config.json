@@ -2,6 +2,7 @@
   "name": "hassio-foscam",
   "version": "0.5.16",
   "slug": "hassio-foscam",
+  "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
   "description": "Exposing curl commands for Foscam cameras to Hass.io",
   "startup": "before",
   "boot": "auto",
