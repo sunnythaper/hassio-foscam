@@ -46,6 +46,5 @@
       "preset_on": "str",
       "preset_off": "str"
     }]
-  },
-  "image": "hassio-foscam/hassio-foscam-{arch}"
+  }
 }
