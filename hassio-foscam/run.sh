@@ -59,7 +59,7 @@ foscam_motion_status() {
 foscam_events_detect() {
   while /bin/true; do
     STATUS=$(curl -k --silent "$1://$2:$3/cgi-bin/CGIProxy.fcgi?cmd=getDevState&usr=$4&pwd=$5")
-    MOTION=$STATUS | grep -oE "<motionDetectAlarm>([0-9])" | grep -oE "([0-9])")
+    MOTION=$STATUS | grep -oE "<motionDetectAlarm>([0-9])" | grep -oE "([0-9])"
 	OUTPUT=""
 
     if [ $MOTION = "2" ]; then
@@ -78,7 +78,7 @@ foscam_events_detect() {
 
     mosquitto_pub -h "$MQTT_IP" -p "$MQTT_PORT" -u "$MQTT_USER" -P "$MQTT_PASSWORD" -t "$PARENT_TOPIC/$6/motion_detect" -m "$OUTPUT" || true
 
-	SOUND=$STATUS | grep -oE "<soundAlarm>([0-9])" | grep -oE "([0-9])")
+	SOUND=$STATUS | grep -oE "<soundAlarm>([0-9])" | grep -oE "([0-9])"
 	OUTPUT=""
 
 	if [ $SOUND = "2" ]; then
@@ -97,7 +97,7 @@ foscam_events_detect() {
 
     mosquitto_pub -h "$MQTT_IP" -p "$MQTT_PORT" -u "$MQTT_USER" -P "$MQTT_PASSWORD" -t "$PARENT_TOPIC/$6/sound_detect" -m "$OUTPUT" || true
 
-	IRLED=$STATUS | grep -oE "<infraLedState>([0-9])" | grep -oE "([0-9])")
+	IRLED=$STATUS | grep -oE "<infraLedState>([0-9])" | grep -oE "([0-9])"
 	OUTPUT=""
 
 	if [ $IRLED = "1" ]; then
