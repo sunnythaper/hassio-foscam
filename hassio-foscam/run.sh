@@ -64,16 +64,16 @@ foscam_events_detect() {
 
     if [ $MOTION = "2" ]; then
       OUTPUT="true"
-	  bashio::log.info "Motion detected on $6"
+	  echo "Motion detected on $6"
 	elif [ $MOTION = "1" ]; then
 	  OUTPUT="false"
-	  bashio::log.info "Motion NOT detected on $6"
+	  echo "Motion NOT detected on $6"
 	elif [ $MOTION = "0" ]; then
 	  OUTPUT="disabled"
-	  bashio::log.info "Motion disabled on $6"
+	  echo "Motion disabled on $6"
     else
       OUTPUT="ERROR"
-	  bashio::log.error "ERROR processing motion"
+	  echo "ERROR processing motion"
     fi
 
     mosquitto_pub -h "$MQTT_IP" -p "$MQTT_PORT" -u "$MQTT_USER" -P "$MQTT_PASSWORD" -t "$PARENT_TOPIC/$6/motion_detect" -m "$OUTPUT" || true
@@ -83,16 +83,16 @@ foscam_events_detect() {
 
 	if [ $SOUND = "2" ]; then
       OUTPUT="true"
-	  bashio::log.info "Sound detected on $6"
+	  echo "Sound detected on $6"
 	elif [ $SOUND = "1" ]; then
 	  OUTPUT="false"
-	  bashio::log.info "Sound NOT detected on $6"
+	  echo "Sound NOT detected on $6"
 	elif [ $SOUND = "0" ]; then
 	  OUTPUT="disabled"
-	  bashio::log.info "Sound disabled on $6"
+	  echo "Sound disabled on $6"
     else
       OUTPUT="ERROR"
-	  bashio::log.error "ERROR processing sound"
+	  echo "ERROR processing sound"
     fi
 
     mosquitto_pub -h "$MQTT_IP" -p "$MQTT_PORT" -u "$MQTT_USER" -P "$MQTT_PASSWORD" -t "$PARENT_TOPIC/$6/sound_detect" -m "$OUTPUT" || true
@@ -102,13 +102,13 @@ foscam_events_detect() {
 
 	if [ $IRLED = "1" ]; then
 	  OUTPUT="true"
-	  bashio::log.info "IR LED on $6"
+	  echo "IR LED on $6"
 	elif [ $IRLED = "0" ]; then
 	  OUTPUT="false"
-	  bashio::log.info "IR LED off $6"
+	  echo "IR LED off $6"
     else
       OUTPUT="ERROR"
-	  bashio::log.error "ERROR processing IR LED state"
+	  echo "ERROR processing IR LED state"
     fi
 
     mosquitto_pub -h "$MQTT_IP" -p "$MQTT_PORT" -u "$MQTT_USER" -P "$MQTT_PASSWORD" -t "$PARENT_TOPIC/$6/ir_led_status" -m "$OUTPUT" || true
@@ -130,7 +130,7 @@ do
     PRESET_ON=$(jq --raw-output ".cameras[$i].preset_on" $CONFIG_PATH)
     PRESET_OFF=$(jq --raw-output ".cameras[$i].preset_off" $CONFIG_PATH)
 
-	bashio::log.info "Initializing $NAME camera"
+	echo "Initializing $NAME camera"
 
     if [ $INIT[$i] ]; then
       foscam_motion_status $PROTOCOL $IP $PORT $USERNAME $PASSWORD $NAME &
