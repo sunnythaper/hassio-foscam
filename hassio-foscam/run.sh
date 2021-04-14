@@ -57,8 +57,10 @@ foscam_motion_status() {
 }
 
 foscam_events_detect() {
+  echo "Getting event statuses"
+  echo /bin/true
+
   while /bin/true; do
-    echo "Getting event statuses"
 
     STATUS=$(curl -k --silent "$1://$2:$3/cgi-bin/CGIProxy.fcgi?cmd=getDevState&usr=$4&pwd=$5")
     MOTION=$STATUS | grep -oE "<motionDetectAlarm>([0-9])" | grep -oE "([0-9])"
