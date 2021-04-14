@@ -63,8 +63,8 @@ foscam_events_detect() {
 
   while /bin/true; do
     echo "Looping on statuses"
-    MOTION=$(curl -k --silent "$1://$2:$3/cgi-bin/CGIProxy.fcgi?cmd=getDevState&usr=$4&pwd=$5" | grep -oE "<isEmotionDetectAlarmnable>([0-9])" | grep -oE "([0-9])")
-    echo "Motion: $MOTION"
+
+    MOTION=$(curl -k --silent "$1://$2:$3/cgi-bin/CGIProxy.fcgi?cmd=getDevState&usr=$4&pwd=$5" | grep -oE "<motionDetectAlarm>([0-9])" | grep -oE "([0-9])")
     OUTPUT=""
 
     if [ $MOTION = "2" ]; then
@@ -102,7 +102,7 @@ foscam_events_detect() {
 
     mosquitto_pub -h "$MQTT_IP" -p "$MQTT_PORT" -u "$MQTT_USER" -P "$MQTT_PASSWORD" -t "$PARENT_TOPIC/$6/sound_detect" -m "$OUTPUT" || true
 
-    IRLED=$(curl -k --silent "$1://$2:$3/cgi-bin/CGIProxy.fcgi?cmd=getMotionDetectConfig1&usr=$4&pwd=$5" | grep -oE "<infraLedState>([0-9])" | grep -oE "([0-9])")
+    IRLED=$(curl -k --silent "$1://$2:$3/cgi-bin/CGIProxy.fcgi?cmd=getDevState&usr=$4&pwd=$5" | grep -oE "<infraLedState>([0-9])" | grep -oE "([0-9])")
     OUTPUT=""
 
     if [ $IRLED = "1" ]; then
