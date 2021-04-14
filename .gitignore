@@ -2,3 +2,7 @@
 /.vs/config/applicationhost.config
 /.vs/hassio-foscam/v15/.suo
 /.vs/slnx.sqlite
+hassio-foscam/test.sh
+.vs/hassio-foscam/v16/.suo
+.vs/VSWorkspaceState.json
+hassio-foscam/data/options.json
