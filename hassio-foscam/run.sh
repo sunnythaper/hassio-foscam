@@ -56,18 +56,62 @@ foscam_motion_status() {
   done
 }
 
-foscam_motion_detect() {
+foscam_events_detect() {
   while /bin/true; do
-    STATUS=$(curl -k --silent "$1://$2:$3/cgi-bin/CGIProxy.fcgi?cmd=getDevState&usr=$4&pwd=$5" | grep -oE "<motionDetectAlarm>([0-9])" | grep -oE "([0-9])")
-    OUTPUT=""
+    STATUS=$(curl -k --silent "$1://$2:$3/cgi-bin/CGIProxy.fcgi?cmd=getDevState&usr=$4&pwd=$5")
+    MOTION=$STATUS | grep -oE "<motionDetectAlarm>([0-9])" | grep -oE "([0-9])")
+	OUTPUT=""
 
-    if [ $STATUS = "2" ]; then
-      OUTPUT="Detected"
+    if [ $MOTION = "2" ]; then
+      OUTPUT="true"
+	  bashio::log.info "Motion detected on $6"
+	elif [ $MOTION = "1" ]; then
+	  OUTPUT="false"
+	  bashio::log.info "Motion NOT detected on $6"
+	elif [ $MOTION = "0" ]; then
+	  OUTPUT="disabled"
+	  bashio::log.info "Motion disabled on $6"
     else
-      OUTPUT="None"
+      OUTPUT="ERROR"
+	  bashio::log.error "ERROR processing motion"
     fi
 
     mosquitto_pub -h "$MQTT_IP" -p "$MQTT_PORT" -u "$MQTT_USER" -P "$MQTT_PASSWORD" -t "$PARENT_TOPIC/$6/motion_detect" -m "$OUTPUT" || true
+
+	SOUND=$STATUS | grep -oE "<soundAlarm>([0-9])" | grep -oE "([0-9])")
+	OUTPUT=""
+
+	if [ $SOUND = "2" ]; then
+      OUTPUT="true"
+	  bashio::log.info "Sound detected on $6"
+	elif [ $SOUND = "1" ]; then
+	  OUTPUT="false"
+	  bashio::log.info "Sound NOT detected on $6"
+	elif [ $SOUND = "0" ]; then
+	  OUTPUT="disabled"
+	  bashio::log.info "Sound disabled on $6"
+    else
+      OUTPUT="ERROR"
+	  bashio::log.error "ERROR processing sound"
+    fi
+
+    mosquitto_pub -h "$MQTT_IP" -p "$MQTT_PORT" -u "$MQTT_USER" -P "$MQTT_PASSWORD" -t "$PARENT_TOPIC/$6/sound_detect" -m "$OUTPUT" || true
+
+	IRLED=$STATUS | grep -oE "<infraLedState>([0-9])" | grep -oE "([0-9])")
+	OUTPUT=""
+
+	if [ $IRLED = "1" ]; then
+	  OUTPUT="true"
+	  bashio::log.info "IR LED on $6"
+	elif [ $IRLED = "0" ]; then
+	  OUTPUT="false"
+	  bashio::log.info "IR LED off $6"
+    else
+      OUTPUT="ERROR"
+	  bashio::log.error "ERROR processing IR LED state"
+    fi
+
+    mosquitto_pub -h "$MQTT_IP" -p "$MQTT_PORT" -u "$MQTT_USER" -P "$MQTT_PASSWORD" -t "$PARENT_TOPIC/$6/ir_led_status" -m "$OUTPUT" || true
 
     sleep 1
   done
@@ -86,9 +130,11 @@ do
     PRESET_ON=$(jq --raw-output ".cameras[$i].preset_on" $CONFIG_PATH)
     PRESET_OFF=$(jq --raw-output ".cameras[$i].preset_off" $CONFIG_PATH)
 
+	bashio::log.info "Initializing $NAME camera"
+
     if [ $INIT[$i] ]; then
       foscam_motion_status $PROTOCOL $IP $PORT $USERNAME $PASSWORD $NAME &
-      foscam_motion_detect $PROTOCOL $IP $PORT $USERNAME $PASSWORD $NAME &
+      foscam_events_detect $PROTOCOL $IP $PORT $USERNAME $PASSWORD $NAME &
       INIT[$i]=false
     fi
 
