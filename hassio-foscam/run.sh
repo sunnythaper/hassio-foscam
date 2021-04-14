@@ -52,15 +52,19 @@ foscam_motion_status() {
 
     mosquitto_pub -h "$MQTT_IP" -p "$MQTT_PORT" -u "$MQTT_USER" -P "$MQTT_PASSWORD" -t "$PARENT_TOPIC/$6/motion_status" -m "$OUTPUT" || true
 
-    sleep 1
+    sleep 5
   done
 }
 
 foscam_events_detect() {
   while /bin/true; do
+    echo "Getting event statuses"
+
     STATUS=$(curl -k --silent "$1://$2:$3/cgi-bin/CGIProxy.fcgi?cmd=getDevState&usr=$4&pwd=$5")
     MOTION=$STATUS | grep -oE "<motionDetectAlarm>([0-9])" | grep -oE "([0-9])"
 	OUTPUT=""
+	
+	echo "Motion $MOTION"
 
     if [ $MOTION = "2" ]; then
       OUTPUT="true"
