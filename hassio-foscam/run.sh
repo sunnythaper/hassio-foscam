@@ -41,7 +41,7 @@ foscam_motion_enable() {
 
 foscam_motion_status() {
   while /bin/true; do
-    STATUS=$(curl -k --silent "$1://$2:$3/cgi-bin/CGIProxy.fcgi?cmd=getMotionDetectConfig1&usr=$4&pwd=$5" | grep -oE "<isEnable>([0-9])" | grep -oE "([0-9])")
+    STATUS=$(curl -k --silent "$1://$2:$3/cgi-bin/CGIProxy.fcgi?cmd=getDevState&usr=$4&pwd=$5" | grep -oE "<isEnable>([0-9])" | grep -oE "([0-9])")
     OUTPUT=""
 
     if [ $STATUS = "0" ]; then
@@ -63,7 +63,8 @@ foscam_events_detect() {
 
   while /bin/true; do
     echo "Looping on statuses"
-    MOTION=$(curl -k --silent "$1://$2:$3/cgi-bin/CGIProxy.fcgi?cmd=getMotionDetectConfig1&usr=$4&pwd=$5" | grep -oE "<isEmotionDetectAlarmnable>([0-9])" | grep -oE "([0-9])")
+    MOTION=$(curl -k --silent "$1://$2:$3/cgi-bin/CGIProxy.fcgi?cmd=getDevState&usr=$4&pwd=$5" | grep -oE "<isEmotionDetectAlarmnable>([0-9])" | grep -oE "([0-9])")
+    echo "Motion: $MOTION"
     OUTPUT=""
 
     if [ $MOTION = "2" ]; then
@@ -82,7 +83,7 @@ foscam_events_detect() {
 
     mosquitto_pub -h "$MQTT_IP" -p "$MQTT_PORT" -u "$MQTT_USER" -P "$MQTT_PASSWORD" -t "$PARENT_TOPIC/$6/motion_detect" -m "$OUTPUT" || true
 
-    SOUND=$(curl -k --silent "$1://$2:$3/cgi-bin/CGIProxy.fcgi?cmd=getMotionDetectConfig1&usr=$4&pwd=$5" | grep -oE "<soundAlarm>([0-9])" | grep -oE "([0-9])")
+    SOUND=$(curl -k --silent "$1://$2:$3/cgi-bin/CGIProxy.fcgi?cmd=getDevState&usr=$4&pwd=$5" | grep -oE "<soundAlarm>([0-9])" | grep -oE "([0-9])")
     OUTPUT=""
 
     if [ $SOUND = "2" ]; then
