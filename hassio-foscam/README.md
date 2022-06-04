@@ -5,7 +5,7 @@ I have a few [Foscam R2s](http://amzn.to/2rtIE4G) and needed a way for them to i
 Features:
 
 * Ability to add multiple cameras
-* Extremely fast motion detection status updates
+* Extremely fast motion and sound detection status updates
 * Simultaneous camera arm/disarm command execution (seriously looks so cool)
 * Completely configurable via the Hass.io add-on panel within Home Assistant
 * Ability to use "http" or "https" and to set a custom port
@@ -109,11 +109,19 @@ With the above example, we should see the following MQTT topics:
 
 **cameras/foscam/porch/motion_status** - Will display either Armed or Disarmed based off a curl call to the camera
 
+**cameras/foscam/porch/ir_led_status** - Will display either None or Detected based off a curl call to the camera
+
 **cameras/foscam/porch/motion_detect** - Will display either None or Detected based off a curl call to the camera
+
+**cameras/foscam/porch/sound_detect** - Will display either None or Detected based off a curl call to the camera
 
 **cameras/foscam/backyard/motion_status**
 
+**cameras/foscam/backyard/ir_led_status**
+
 **cameras/foscam/backyard/motion_detect**
+
+**cameras/foscam/backyard/sound_detect**
 
 Home Assistant MQTT Switch
 --------------------------
@@ -140,20 +148,32 @@ Now that we have the master on/off switch setup, we want to see if the switch ha
 ```yaml
 sensor:
   - platform: mqtt
-    name: Porch Status
+    name: Porch Motion Status
     state_topic: cameras/foscam/porch/motion_status
   - platform: mqtt
-    name: Porch Motion
+    name: Porch IR LED Status
+    state_topic: cameras/foscam/porch/ir_led_status
+  - platform: mqtt
+    name: Porch Motion Detect
     state_topic: cameras/foscam/porch/motion_detect
   - platform: mqtt
-    name: Backyard Status
+    name: Porch Sound Detect
+    state_topic: cameras/foscam/porch/sound_detect
+  - platform: mqtt
+    name: Backyard Motion Status
     state_topic: cameras/foscam/backyard/motion_status
   - platform: mqtt
-    name: Backyard Motion
+    name: Backyard IR LED Status
+    state_topic: cameras/foscam/backyard/ir_led_status
+  - platform: mqtt
+    name: Backyard Motion Detect
     state_topic: cameras/foscam/backyard/motion_detect
+  - platform: mqtt
+    name: Backyard Sound Detect
+    state_topic: cameras/foscam/backyard/sound_detect
 ```
 
-Now we should be able to place sensor.porch_status, sensor.porch_motion, sensor.backyard_status, and sensor.backyard_motion into our groups.yaml file and get some feedback from our cameras in Home Assistant!
+Now we should be able to place sensor.porch_motion_status, sensor.porch_ir_led_status, sensor.porch_motion_detect, sensor.porch_sound_detect, sensor.backyard_motion_status, sensor.backyard_ir_led_status, sensor.backyard_motion_detect, and sensor.backyard_sound_detect into our groups.yaml file and get some feedback from our cameras in Home Assistant!
 
 Home Assistant Foscam Camera Feed
 ---------------------------------
